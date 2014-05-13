@@ -10,7 +10,7 @@ namespace MathematicalLinguistics
         private Coin _currentCoin;
         private ParkMeterState _state;
         private int _coinsState = 0;
-        private int[] _validCoins = new [] { 1, 2, 5 };
+        public readonly static int[] ValidCoins = new [] { 1, 2, 5 };
         private const int AcceptingStateCoinsValue = 7;
 
         private static readonly Dictionary<int, Dictionary<int, int>> StateTable;
@@ -94,7 +94,7 @@ namespace MathematicalLinguistics
 
         private void ValidateCoin()
         {
-            if (!_validCoins.Contains(_currentCoin.Value))
+            if (!ValidCoins.Contains(_currentCoin.Value))
                 throw new NotSupportedCoinException();
         }
 

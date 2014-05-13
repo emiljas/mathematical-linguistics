@@ -1,8 +1,26 @@
 ﻿<Window x:Class="MathematicalLinguistics.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Park Meter" Height="170" Width="300" ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,10,10,10">
+            <RadioButton GroupName="CoinsGroup" Content="1zł" IsChecked="True" />
+            <RadioButton GroupName="CoinsGroup" Content="2zł" />
+            <RadioButton GroupName="CoinsGroup" Content="5zł" />
+        </StackPanel>
+        <Button Grid.Row="0" Grid.Column="1" Content="Insert coin" Margin="10,10,10,10" Click="InsertCoinButton_Click">
+        </Button>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="10,10,10,10" TextAlignment="Center" Name="StateTextBlock">
+        </TextBlock>
+        <Button Grid.Row="1" Grid.Column="1" Content="Start" Margin="10,10,10,10" Click="StartButton_Click">
+        </Button>
     </Grid>
 </Window>

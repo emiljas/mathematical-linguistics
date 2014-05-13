@@ -61,16 +61,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Coin.cs" />
+    <Compile Include="ParkMeter\Coin.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NotSupportedCoinException.cs" />
-    <Compile Include="ParkMeter.cs" />
-    <Compile Include="ParkMeterState.cs" />
+    <Compile Include="ParkMeter\NotSupportedCoinException.cs" />
+    <Compile Include="ParkMeter\ParkMeterTransaction.cs" />
+    <Compile Include="ParkMeter\ParkMeterState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -15,14 +15,19 @@ using System.Windows.Shapes;
 
 namespace MathematicalLinguistics
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void InsertCoinButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
