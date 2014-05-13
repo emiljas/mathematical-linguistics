@@ -17,17 +17,52 @@ namespace MathematicalLinguistics
 {
     public partial class MainWindow : Window
     {
+        private ParkMeterTransaction _parkMeterTransaction;
+        private Coin _selectedCoin = new Coin(1);
+
         public MainWindow()
         {
             InitializeComponent();
+            BindNewParkMeterTransaction();
+        }
+
+        private void BindNewParkMeterTransaction()
+        {
+            _parkMeterTransaction = new ParkMeterTransaction();
+            Refresh();
         }
 
         private void InsertCoinButton_Click(object sender, RoutedEventArgs e)
         {
+            _parkMeterTransaction.InsertCoin(_selectedCoin);
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            StateTextBlock.Text = "State: " + _parkMeterTransaction.CheckState().ToString();
+            InsertedCoinsTextBox.Text = _parkMeterTransaction.GetCoinsAsString();
+            InsertedCoinsTextBox.ScrollToEnd();
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            BindNewParkMeterTransaction();
+        }
+
+        private void _1ZłRadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedCoin = new Coin(1);
+        }
+
+        private void _2ZłRadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedCoin = new Coin(2);
+        }
+
+        private void _5ZłRadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedCoin = new Coin(5);
         }
     }
 }

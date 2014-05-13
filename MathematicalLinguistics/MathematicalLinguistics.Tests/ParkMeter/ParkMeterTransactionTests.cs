@@ -56,5 +56,29 @@ namespace MathematicalLinguistics.Tests
 
             Assert.Equal(ParkMeterState.RejectState, _parkMeter.CheckState());
         }
+
+        [Fact]
+        public void GetCoinsAsString_NoCoinsInserted_ReturnsEmptyString()
+        {
+            Assert.Equal("", _parkMeter.GetCoinsAsString());
+        }
+
+        [Fact]
+        public void GetCoinsAsString_1złInserted_Returns1zł()
+        {
+            _parkMeter.InsertCoin(new Coin(1));
+
+            Assert.Equal("1zł", _parkMeter.GetCoinsAsString());
+        }
+
+        [Fact]
+        public void GetCoinsAsString_1złAnd2złAnd5złInserted_Returns1złCOMMA2złCOMMA3zł()
+        {
+            _parkMeter.InsertCoin(new Coin(1));
+            _parkMeter.InsertCoin(new Coin(2));
+            _parkMeter.InsertCoin(new Coin(5));
+
+            Assert.Equal("1zł, 2zł, 5zł", _parkMeter.GetCoinsAsString());
+        }
     }
 }

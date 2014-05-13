@@ -7,6 +7,7 @@ namespace MathematicalLinguistics
 {
     public class ParkMeterTransaction
     {
+        private string _coinsAsString = "";
         private Coin _currentCoin;
         private ParkMeterState _state;
         private int _coinsState = 0;
@@ -59,6 +60,8 @@ namespace MathematicalLinguistics
         public void InsertCoin(Coin coin)
         {
             _currentCoin = coin;
+
+            AppendCoinToString();
             ValidateCoin();
 
             if (IsCompleted())
@@ -69,6 +72,14 @@ namespace MathematicalLinguistics
 
             _coinsState = StateTable[_coinsState][coin.Value];
             UpdateState();
+        }
+
+        private void AppendCoinToString()
+        {
+            if (_coinsAsString == "")
+                _coinsAsString = _currentCoin.ToString();
+            else
+                _coinsAsString = string.Join(", ", _coinsAsString, _currentCoin.ToString());
         }
 
         private void AfterAcceptingState()
@@ -101,6 +112,11 @@ namespace MathematicalLinguistics
         public ParkMeterState CheckState()
         {
             return _state;
+        }
+
+        public string GetCoinsAsString()
+        {
+            return _coinsAsString;
         }
     }
 }
