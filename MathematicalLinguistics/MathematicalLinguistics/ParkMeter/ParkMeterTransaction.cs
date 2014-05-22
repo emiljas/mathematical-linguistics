@@ -11,8 +11,8 @@ namespace MathematicalLinguistics
         private Coin _currentCoin;
         private ParkMeterState _state;
         private int _coinsState = 0;
-        public readonly static int[] ValidCoins = new [] { 1, 2, 5 };
-        private const int AcceptingStateCoinsValue = 7;
+        public readonly static int[] ValidCoins = new [] { 100, 200, 500 };
+        private const int AcceptingStateCoinsValue = 700;
 
         private static readonly Dictionary<int, Dictionary<int, int>> StateTable;
 
@@ -20,27 +20,27 @@ namespace MathematicalLinguistics
         {
             StateTable = new Dictionary<int, Dictionary<int, int>>();
 
-            AppendToStateTable(0, 1, 1);
-            AppendToStateTable(0, 2, 2);
-            AppendToStateTable(0, 5, 5);
-            AppendToStateTable(1, 1, 2);
-            AppendToStateTable(1, 2, 3);
-            AppendToStateTable(1, 5, 6);
-            AppendToStateTable(2, 1, 3);
-            AppendToStateTable(2, 2, 4);
-            AppendToStateTable(2, 5, 7);
-            AppendToStateTable(3, 1, 4);
-            AppendToStateTable(3, 2, 5);
-            AppendToStateTable(3, 5, 8);
-            AppendToStateTable(4, 1, 5);
-            AppendToStateTable(4, 2, 6);
-            AppendToStateTable(4, 5, 9);
-            AppendToStateTable(5, 1, 6);
-            AppendToStateTable(5, 2, 7);
-            AppendToStateTable(5, 5, 10);
-            AppendToStateTable(6, 1, 7);
-            AppendToStateTable(6, 2, 8);
-            AppendToStateTable(6, 5, 11);
+            AppendToStateTable(0, 100, 100);
+            AppendToStateTable(0, 200, 200);
+            AppendToStateTable(0, 500, 500);
+            AppendToStateTable(100, 100, 200);
+            AppendToStateTable(100, 200, 300);
+            AppendToStateTable(100, 500, 600);
+            AppendToStateTable(200, 100, 300);
+            AppendToStateTable(200, 200, 400);
+            AppendToStateTable(200, 500, 700);
+            AppendToStateTable(300, 100, 400);
+            AppendToStateTable(300, 200, 500);
+            AppendToStateTable(300, 500, 800);
+            AppendToStateTable(400, 100, 500);
+            AppendToStateTable(400, 200, 600);
+            AppendToStateTable(400, 500, 900);
+            AppendToStateTable(500, 100, 600);
+            AppendToStateTable(500, 200, 700);
+            AppendToStateTable(500, 500, 1000);
+            AppendToStateTable(600, 100, 700);
+            AppendToStateTable(600, 200, 800);
+            AppendToStateTable(600, 500, 1100);
         }
 
         private static void AppendToStateTable(int startState, int insertedCoin, int nextState)

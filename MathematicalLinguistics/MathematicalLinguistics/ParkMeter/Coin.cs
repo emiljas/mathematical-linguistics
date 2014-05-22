@@ -16,7 +16,7 @@ namespace MathematicalLinguistics
 
         public override string ToString()
         {
-            return Value + "zł";
+            return Value / 100 + "zł";
         }
     }
 }
