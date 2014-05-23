@@ -18,12 +18,23 @@ namespace MathematicalLinguistics
     public partial class MainWindow : Window
     {
         private ParkMeterTransaction _parkMeterTransaction;
-        private Coin _selectedCoin = new Coin(1);
+        private Coin _selectedCoin = Coin.FromZlotys(1);
+        private static readonly int[] CoinsValueToChoose = new[] { 1, 2, 5, 10, 20, 50, 100, 200, 500 };
 
         public MainWindow()
         {
             InitializeComponent();
+            BindCoins();
+
             BindNewParkMeterTransaction();
+        }
+
+        private void BindCoins()
+        {
+            var grid = CoinsGrid;
+
+            
+            new CoinRadioButton(grid, 0, 0, 1, CoinRadioButtonState.Incorrect);
         }
 
         private void BindNewParkMeterTransaction()
@@ -52,17 +63,17 @@ namespace MathematicalLinguistics
 
         private void _1ZłRadioButton_Click(object sender, RoutedEventArgs e)
         {
-            _selectedCoin = new Coin(1);
+            _selectedCoin = Coin.FromZlotys(1);
         }
 
         private void _2ZłRadioButton_Click(object sender, RoutedEventArgs e)
         {
-            _selectedCoin = new Coin(2);
+            _selectedCoin = Coin.FromZlotys(2);
         }
 
         private void _5ZłRadioButton_Click(object sender, RoutedEventArgs e)
         {
-            _selectedCoin = new Coin(5);
+            _selectedCoin = Coin.FromZlotys(5);
         }
     }
 }

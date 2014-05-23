@@ -14,7 +14,7 @@ namespace MathematicalLinguistics.Tests
         [Fact]
         public void InsertCoin_NotSupportedCoin_ThrowsNotSupportedCoinException()
         {
-            var coin = new Coin(300);
+            var coin = Coin.FromZlotys(3);
             Assert.ThrowsDelegate insertCoin = () => _parkMeter.InsertCoin(coin);
             Assert.Throws<NotSupportedCoinException>(insertCoin);
         }
@@ -28,9 +28,9 @@ namespace MathematicalLinguistics.Tests
         [Fact]
         public void InsertCoin_CoinSumEquals7zł_AcceptingState()
         {
-            _parkMeter.InsertCoin(new Coin(100));
-            _parkMeter.InsertCoin(new Coin(500));
-            _parkMeter.InsertCoin(new Coin(100));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(Coin.FromZlotys(5));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
 
             Assert.Equal(ParkMeterState.AcceptingState, _parkMeter.CheckState());
         }
@@ -38,9 +38,9 @@ namespace MathematicalLinguistics.Tests
         [Fact]
         public void InsertCoin_CoinSumMoreThan7zł_RejectState()
         {
-            _parkMeter.InsertCoin(new Coin(100));
-            _parkMeter.InsertCoin(new Coin(500));
-            _parkMeter.InsertCoin(new Coin(200));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(Coin.FromZlotys(5));
+            _parkMeter.InsertCoin(Coin.FromZlotys(2));
 
             Assert.Equal(ParkMeterState.RejectState, _parkMeter.CheckState());
         }
@@ -48,11 +48,11 @@ namespace MathematicalLinguistics.Tests
         [Fact]
         public void InsertCoin_AfterAcceptingState_RejectState()
         {
-            _parkMeter.InsertCoin(new Coin(100));
-            _parkMeter.InsertCoin(new Coin(500));
-            _parkMeter.InsertCoin(new Coin(100));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(Coin.FromZlotys(5));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
 
-            _parkMeter.InsertCoin(new Coin(100));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
 
             Assert.Equal(ParkMeterState.RejectState, _parkMeter.CheckState());
         }
@@ -66,7 +66,7 @@ namespace MathematicalLinguistics.Tests
         [Fact]
         public void GetCoinsAsString_1złInserted_Returns1zł()
         {
-            _parkMeter.InsertCoin(new Coin(100));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
 
             Assert.Equal("1zł", _parkMeter.GetCoinsAsString());
         }
@@ -74,9 +74,9 @@ namespace MathematicalLinguistics.Tests
         [Fact]
         public void GetCoinsAsString_1złAnd2złAnd5złInserted_Returns1złCOMMA2złCOMMA3zł()
         {
-            _parkMeter.InsertCoin(new Coin(100));
-            _parkMeter.InsertCoin(new Coin(200));
-            _parkMeter.InsertCoin(new Coin(500));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(Coin.FromZlotys(2));
+            _parkMeter.InsertCoin(Coin.FromZlotys(5));
 
             Assert.Equal("1zł, 2zł, 5zł", _parkMeter.GetCoinsAsString());
         }

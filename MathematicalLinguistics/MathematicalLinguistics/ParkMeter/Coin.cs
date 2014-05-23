@@ -7,16 +7,26 @@ namespace MathematicalLinguistics
 {
     public class Coin
     {
-        public int Value { get; set; }
+        public int Grosze { get; set; }
 
-        public Coin(int value)
-        {
-            Value = value;
+        private Coin(int grosze)
+        {   
+            Grosze = grosze;
         }
 
         public override string ToString()
         {
-            return Value / 100 + "zł";
+            return Grosze / 100 + "zł";
+        }
+
+        public static Coin FromGrosze(int grosze)
+        {
+            return new Coin(grosze);
+        }
+
+        public static Coin FromZlotys(int zlotys)
+        {
+            return new Coin(zlotys * 100);
         }
     }
 }

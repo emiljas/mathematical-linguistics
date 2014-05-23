@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
         <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ScrollViewer.VerticalScrollBarVisibility="Visible"
                  IsReadOnly="True" TextWrapping="Wrap" Name="InsertedCoinsTextBox"></TextBox>
-        <Grid Grid.Row="1" Grid.Column="0" Margin="20,10,10,10">
+        <Grid Name="CoinsGrid" Grid.Row="1" Grid.Column="0" Margin="20,10,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -37,8 +37,8 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <RadioButton Grid.Row="0" Grid.Column="0" GroupName="CoinsGroup" Content="1gr"  Style="{StaticResource ResourceKey=IncorrectCoin}" />
-            <RadioButton Grid.Row="1" Grid.Column="0" GroupName="CoinsGroup" Content="2gr" Style="{StaticResource ResourceKey=IncorrectCoin}" />
+            <!--<RadioButton Grid.Row="0" Grid.Column="0" GroupName="CoinsGroup" Content="1gr"  Style="{StaticResource ResourceKey=IncorrectCoin}" />
+            --><RadioButton Grid.Row="1" Grid.Column="0" GroupName="CoinsGroup" Content="2gr" Style="{StaticResource ResourceKey=IncorrectCoin}" />
             <RadioButton Grid.Row="2" Grid.Column="0" GroupName="CoinsGroup" Content="5gr" Style="{StaticResource ResourceKey=IncorrectCoin}" />
             <RadioButton Grid.Row="0" Grid.Column="1" GroupName="CoinsGroup" Content="10gr" Style="{StaticResource ResourceKey=IncorrectCoin}" />
             <RadioButton Grid.Row="1" Grid.Column="1" GroupName="CoinsGroup" Content="20gr" Style="{StaticResource ResourceKey=IncorrectCoin}" />

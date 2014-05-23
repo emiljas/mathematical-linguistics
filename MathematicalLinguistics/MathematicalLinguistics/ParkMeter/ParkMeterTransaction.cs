@@ -70,7 +70,7 @@ namespace MathematicalLinguistics
                 return;
             }
 
-            _coinsState = StateTable[_coinsState][coin.Value];
+            _coinsState = StateTable[_coinsState][coin.Grosze];
             UpdateState();
         }
 
@@ -105,7 +105,7 @@ namespace MathematicalLinguistics
 
         private void ValidateCoin()
         {
-            if (!ValidCoins.Contains(_currentCoin.Value))
+            if (!ValidCoins.Contains(_currentCoin.Grosze))
                 throw new NotSupportedCoinException();
         }
 

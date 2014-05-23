@@ -100,6 +100,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoinTests.cs" />
+    <Compile Include="ParkMeter\ChangeMaker.cs" />
+    <Compile Include="ParkMeter\ChangeMakerTests.cs" />
     <Compile Include="ParkMeter\ParkMeterTransactionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
