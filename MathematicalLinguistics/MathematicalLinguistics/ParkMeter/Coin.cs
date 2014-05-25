@@ -16,7 +16,10 @@ namespace MathematicalLinguistics.ParkMeter
 
         public override string ToString()
         {
-            return Grosze / 100 + "zł";
+            if (Grosze >= 100)
+                return (Grosze / 100).ToString() + "zł";
+            else
+                return Grosze.ToString() + "gr";
         }
 
         public static Coin FromGrosze(int grosze)
@@ -27,6 +30,31 @@ namespace MathematicalLinguistics.ParkMeter
         public static Coin FromZlotys(int zlotys)
         {
             return new Coin(zlotys * 100);
+        }
+
+        public static Coin Parse(string value)
+        {
+            if (value.EndsWith("zł"))
+            {
+                var v = int.Parse(value.Replace("zł", ""));
+                return Coin.FromZlotys(v);
+            }
+            else if (value.EndsWith("gr"))
+            {
+                var v = int.Parse(value.Replace("gr", ""));
+                return Coin.FromGrosze(v);
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object o)
+        {
+            var c = o as Coin;
+            if (c == null)
+                throw new NotImplementedException();
+
+            return this.Grosze == c.Grosze;
         }
     }
 }

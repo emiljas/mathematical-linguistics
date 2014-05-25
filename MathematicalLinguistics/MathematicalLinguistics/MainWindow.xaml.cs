@@ -1,4 +1,5 @@
 ﻿using MathematicalLinguistics.ParkMeter;
+using MathematicalLinguistics.ParkMeter.ChangeMaker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,24 +19,24 @@ namespace MathematicalLinguistics
 {
     public partial class MainWindow : Window
     {
+        private CoinStorage _coinStorage;
         private ParkMeterTransaction _parkMeterTransaction;
         private Coin _selectedCoin = Coin.FromZlotys(1);
-        private static readonly int[] CoinsValueToChoose = new[] { 1, 2, 5, 10, 20, 50, 100, 200, 500 };
 
         public MainWindow()
         {
             InitializeComponent();
-            BindCoins();
 
+            LoadCoinStorage();
             BindNewParkMeterTransaction();
         }
 
-        private void BindCoins()
+        private void LoadCoinStorage()
         {
-            var grid = CoinsGrid;
-
-            
-            new CoinRadioButton(grid, 0, 0, 1, CoinRadioButtonState.Incorrect);
+            _coinStorage = new CoinStorage();
+            _coinStorage.Insert(Coin.FromZlotys(1), 10)
+                        .Insert(Coin.FromZlotys(2), 7)
+                        .Insert(Coin.FromZlotys(5), 9);
         }
 
         private void BindNewParkMeterTransaction()
@@ -52,6 +53,8 @@ namespace MathematicalLinguistics
 
         private void Refresh()
         {
+            CoinStorageLabel.Content = _coinStorage.ToString();
+
             StateTextBlock.Text = "State: " + _parkMeterTransaction.CheckState().ToString();
             InsertedCoinsTextBox.Text = _parkMeterTransaction.GetCoinsAsString();
             InsertedCoinsTextBox.ScrollToEnd();
@@ -62,19 +65,10 @@ namespace MathematicalLinguistics
             BindNewParkMeterTransaction();
         }
 
-        private void _1ZłRadioButton_Click(object sender, RoutedEventArgs e)
+        private void CoinRadioButton_Click(object sender, RoutedEventArgs e)
         {
-            _selectedCoin = Coin.FromZlotys(1);
-        }
-
-        private void _2ZłRadioButton_Click(object sender, RoutedEventArgs e)
-        {
-            _selectedCoin = Coin.FromZlotys(2);
-        }
-
-        private void _5ZłRadioButton_Click(object sender, RoutedEventArgs e)
-        {
-            _selectedCoin = Coin.FromZlotys(5);
+            var radioButton = sender as RadioButton;
+            _selectedCoin = Coin.Parse(radioButton.Content.ToString());
         }
     }
 }

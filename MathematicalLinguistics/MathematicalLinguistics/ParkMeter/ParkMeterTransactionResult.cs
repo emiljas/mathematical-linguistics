@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MathematicalLinguistics.ParkMeter
 {
-    public enum ParkMeterState
+    public class ParkMeterTransactionResult
     {
-        WaitingForMoreCoins,
-        AcceptingState,
-        GiveChangeState
+        public List<Coin> CoinsChange { get; set; }
+        public string Message { get; set; }
     }
 }

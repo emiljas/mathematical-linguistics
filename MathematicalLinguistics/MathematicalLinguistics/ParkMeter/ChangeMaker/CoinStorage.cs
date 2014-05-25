@@ -47,5 +47,10 @@ namespace MathematicalLinguistics.ParkMeter.ChangeMaker
 
             return this;
         }
+
+        public override string ToString()
+        {
+            return string.Join("\t", _coinsGroups.Select(c => c.ToString()));
+        }
     }
 }

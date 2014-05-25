@@ -10,5 +10,10 @@ namespace MathematicalLinguistics.ParkMeter.ChangeMaker
     {
         public Coin Coin { get; set; }
         public int Count { get; set; }
+
+        public override string ToString()
+        {
+            return Coin.ToString() + " x " + Count;
+        }
     }
 }

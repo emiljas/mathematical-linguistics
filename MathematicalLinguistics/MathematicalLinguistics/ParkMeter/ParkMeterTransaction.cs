@@ -11,7 +11,12 @@ namespace MathematicalLinguistics.ParkMeter
         private Coin _currentCoin;
         private ParkMeterState _state;
         private int _coinsState = 0;
-        public readonly static int[] ValidCoins = new [] { 100, 200, 500 };
+        public readonly static Coin[] ValidCoins = new []
+        {
+            Coin.FromZlotys(1),
+            Coin.FromZlotys(2),
+            Coin.FromZlotys(5)
+        };
         private const int AcceptingStateCoinsValue = 700;
 
         private static readonly Dictionary<int, Dictionary<int, int>> StateTable;
@@ -84,13 +89,13 @@ namespace MathematicalLinguistics.ParkMeter
 
         private void AfterAcceptingState()
         {
-            _state = ParkMeterState.RejectState;
+            _state = ParkMeterState.GiveChangeState;
         }
 
         private void UpdateState()
         {
             if (_coinsState > AcceptingStateCoinsValue)
-                _state = ParkMeterState.RejectState;
+                _state = ParkMeterState.GiveChangeState;
             else if (_coinsState == AcceptingStateCoinsValue)
                 _state = ParkMeterState.AcceptingState;
             else
@@ -99,19 +104,24 @@ namespace MathematicalLinguistics.ParkMeter
 
         private bool IsCompleted()
         {
-            return _state == ParkMeterState.RejectState
+            return _state == ParkMeterState.GiveChangeState
                 || _state == ParkMeterState.AcceptingState;
         }
 
         private void ValidateCoin()
         {
-            if (!ValidCoins.Contains(_currentCoin.Grosze))
+            if (!ValidCoins.Contains(_currentCoin))
                 throw new NotSupportedCoinException();
         }
 
         public ParkMeterState CheckState()
         {
             return _state;
+        }
+
+        public ParkMeterTransactionResult CheckResult()
+        {
+            throw new NotImplementedException();
         }
 
         public string GetCoinsAsString()

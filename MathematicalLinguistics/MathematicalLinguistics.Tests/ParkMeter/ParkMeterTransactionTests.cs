@@ -12,10 +12,10 @@ namespace MathematicalLinguistics.Tests
     {
         private ParkMeterTransaction _parkMeter = new ParkMeterTransaction();
 
-        [Fact]
+        [Fact(Skip="wrong coins should be ignore")]
         public void InsertCoin_NotSupportedCoin_ThrowsNotSupportedCoinException()
         {
-            var coin = Coin.FromZlotys(3);
+            var coin = Coin.FromGrosze(2);
             Assert.ThrowsDelegate insertCoin = () => _parkMeter.InsertCoin(coin);
             Assert.Throws<NotSupportedCoinException>(insertCoin);
         }
@@ -36,18 +36,29 @@ namespace MathematicalLinguistics.Tests
             Assert.Equal(ParkMeterState.AcceptingState, _parkMeter.CheckState());
         }
 
+        [Fact(Skip="change form of validcoins")]
+        public void InsertCoin_CoinSumEquals7złWithWrongCoin_AcceptingState()
+        {
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(Coin.FromGrosze(1)); //wrong coin
+            _parkMeter.InsertCoin(Coin.FromZlotys(5));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+
+            Assert.Equal(ParkMeterState.AcceptingState, _parkMeter.CheckState());
+        }
+
         [Fact]
-        public void InsertCoin_CoinSumMoreThan7zł_RejectState()
+        public void InsertCoin_CoinSumMoreThan7zł_GiveChangeState()
         {
             _parkMeter.InsertCoin(Coin.FromZlotys(1));
             _parkMeter.InsertCoin(Coin.FromZlotys(5));
             _parkMeter.InsertCoin(Coin.FromZlotys(2));
 
-            Assert.Equal(ParkMeterState.RejectState, _parkMeter.CheckState());
+            Assert.Equal(ParkMeterState.GiveChangeState, _parkMeter.CheckState());
         }
 
         [Fact]
-        public void InsertCoin_AfterAcceptingState_RejectState()
+        public void InsertCoin_AfterAcceptingState_GiveChangeState()
         {
             _parkMeter.InsertCoin(Coin.FromZlotys(1));
             _parkMeter.InsertCoin(Coin.FromZlotys(5));
@@ -55,7 +66,7 @@ namespace MathematicalLinguistics.Tests
 
             _parkMeter.InsertCoin(Coin.FromZlotys(1));
 
-            Assert.Equal(ParkMeterState.RejectState, _parkMeter.CheckState());
+            Assert.Equal(ParkMeterState.GiveChangeState, _parkMeter.CheckState());
         }
 
         [Fact]
