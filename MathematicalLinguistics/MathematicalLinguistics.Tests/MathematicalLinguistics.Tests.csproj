@@ -100,10 +100,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoinTests.cs" />
-    <Compile Include="ParkMeter\ChangeMaker.cs" />
-    <Compile Include="ParkMeter\ChangeMakerTests.cs" />
+    <Compile Include="ParkMeter\ChangeMaker\CoinsStorageTests.cs" />
+    <Compile Include="ParkMeter\CoinTests.cs" />
+    <Compile Include="ParkMeter\ChangeMaker\ChangeMakerTests.cs" />
     <Compile Include="ParkMeter\ParkMeterTransactionTests.cs" />
+    <Compile Include="ParkMeter\PriceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +117,7 @@
       <Name>MathematicalLinguistics</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -61,6 +61,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ParkMeter\ChangeMaker\ChangeMaker.cs" />
+    <Compile Include="ParkMeter\ChangeMaker\CoinGroup.cs" />
+    <Compile Include="ParkMeter\ChangeMaker\CoinStorage.cs" />
     <Compile Include="ParkMeter\CoinRadioButton.cs" />
     <Compile Include="ParkMeter\Coin.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -79,6 +82,7 @@
     <Compile Include="ParkMeter\NotSupportedCoinException.cs" />
     <Compile Include="ParkMeter\ParkMeterTransaction.cs" />
     <Compile Include="ParkMeter\ParkMeterState.cs" />
+    <Compile Include="ParkMeter\Price.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
