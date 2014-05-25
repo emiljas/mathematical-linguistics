@@ -31,5 +31,19 @@ namespace MathematicalLinguistics.Tests.ParkMeter
             var difference = Price.FromZlotys(113) - Price.FromZlotys(100);
             Assert.Equal(Price.FromZlotys(13).Grosze, difference.Grosze);
         }
+
+        [Fact] 
+        public void ToString()
+        {
+            var result = Price.FromZlotys(2).ToString();
+            Assert.Equal("2zł", result);
+        }
+
+        [Fact]
+        public void ToStringGrosze()
+        {
+            var result = Price.FromGrosze(50).ToString();
+            Assert.Equal("50gr", result);
+        }
     }
 }

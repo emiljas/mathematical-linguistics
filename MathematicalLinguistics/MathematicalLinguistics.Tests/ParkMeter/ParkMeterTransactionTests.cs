@@ -1,4 +1,5 @@
 ﻿using MathematicalLinguistics.ParkMeter;
+using MathematicalLinguistics.ParkMeter.Change;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,17 @@ namespace MathematicalLinguistics.Tests
 {
     public class ParkMeterTransactionTests
     {
-        private ParkMeterTransaction _parkMeter = new ParkMeterTransaction();
+        private ParkMeterTransaction _parkMeter;
 
-        [Fact(Skip="wrong coins should be ignore")]
-        public void InsertCoin_NotSupportedCoin_ThrowsNotSupportedCoinException()
+        public ParkMeterTransactionTests()
         {
-            var coin = Coin.FromGrosze(2);
-            Assert.ThrowsDelegate insertCoin = () => _parkMeter.InsertCoin(coin);
-            Assert.Throws<NotSupportedCoinException>(insertCoin);
+            var coinStorage = new CoinStorage();
+            coinStorage.Insert(Coin.FromZlotys(1), 10)
+                        .Insert(Coin.FromZlotys(2), 7)
+                        .Insert(Coin.FromZlotys(5), 9);
+            var changeMaker = new ChangeMaker(coinStorage);
+
+            _parkMeter = new ParkMeterTransaction(changeMaker);
         }
 
         [Fact]
@@ -36,11 +40,12 @@ namespace MathematicalLinguistics.Tests
             Assert.Equal(ParkMeterState.AcceptingState, _parkMeter.CheckState());
         }
 
-        [Fact(Skip="change form of validcoins")]
+        [Fact]
         public void InsertCoin_CoinSumEquals7złWithWrongCoin_AcceptingState()
         {
+            var wrongCoin = Coin.FromGrosze(1);
             _parkMeter.InsertCoin(Coin.FromZlotys(1));
-            _parkMeter.InsertCoin(Coin.FromGrosze(1)); //wrong coin
+            _parkMeter.InsertCoin(wrongCoin);
             _parkMeter.InsertCoin(Coin.FromZlotys(5));
             _parkMeter.InsertCoin(Coin.FromZlotys(1));
 
@@ -67,6 +72,55 @@ namespace MathematicalLinguistics.Tests
             _parkMeter.InsertCoin(Coin.FromZlotys(1));
 
             Assert.Equal(ParkMeterState.GiveChangeState, _parkMeter.CheckState());
+        }
+
+        [Fact]
+        public void CheckResult_CoinSumEquals7złWithWrongCoin_GiveWrongCoin()
+        {
+            var wrongCoin = Coin.FromGrosze(1);
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(wrongCoin);
+            _parkMeter.InsertCoin(Coin.FromZlotys(5));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+
+            var result = _parkMeter.CheckResult();
+
+            var expected = new List<Coin>
+            {
+                wrongCoin
+            };
+            Assert.Equal(expected, result.CoinsChange);
+            Assert.Equal(ParkMeterTransaction.AcceptingStateMessage, result.Message);
+        }
+
+        [Fact]
+        public void CheckResult_CoinsSumMoreThan7złWithWrongCoins_GiveWrongCoinsAndChange()
+        {
+            var wrongCoin = Coin.FromGrosze(1);
+            var unnecessaryCoin = Coin.FromZlotys(5);
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(wrongCoin);
+            _parkMeter.InsertCoin(Coin.FromZlotys(5));
+            _parkMeter.InsertCoin(Coin.FromZlotys(1));
+            _parkMeter.InsertCoin(unnecessaryCoin);
+
+            var result = _parkMeter.CheckResult();
+
+            var expected = new List<Coin>
+            {
+                unnecessaryCoin,
+                wrongCoin
+            };
+            Assert.Equal(expected, result.CoinsChange);
+            Assert.Contains("5zł", result.Message);
+        }
+
+        [Fact]
+        public void CheckResult_WaitingForMoreCoins()
+        {
+            var result = _parkMeter.CheckResult();
+
+            Assert.Contains("7zł", result.Message);
         }
 
         [Fact]

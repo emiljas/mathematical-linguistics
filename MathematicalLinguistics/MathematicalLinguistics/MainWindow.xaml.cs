@@ -1,5 +1,5 @@
 ﻿using MathematicalLinguistics.ParkMeter;
-using MathematicalLinguistics.ParkMeter.ChangeMaker;
+using MathematicalLinguistics.ParkMeter.Change;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,7 @@ namespace MathematicalLinguistics
     public partial class MainWindow : Window
     {
         private CoinStorage _coinStorage;
+        private ChangeMaker _changeMaker;
         private ParkMeterTransaction _parkMeterTransaction;
         private Coin _selectedCoin = Coin.FromZlotys(1);
 
@@ -37,11 +38,12 @@ namespace MathematicalLinguistics
             _coinStorage.Insert(Coin.FromZlotys(1), 10)
                         .Insert(Coin.FromZlotys(2), 7)
                         .Insert(Coin.FromZlotys(5), 9);
+            _changeMaker = new ChangeMaker(_coinStorage);
         }
 
         private void BindNewParkMeterTransaction()
         {
-            _parkMeterTransaction = new ParkMeterTransaction();
+            _parkMeterTransaction = new ParkMeterTransaction(_changeMaker);
             Refresh();
         }
 
@@ -58,6 +60,9 @@ namespace MathematicalLinguistics
             StateTextBlock.Text = "State: " + _parkMeterTransaction.CheckState().ToString();
             InsertedCoinsTextBox.Text = _parkMeterTransaction.GetCoinsAsString();
             InsertedCoinsTextBox.ScrollToEnd();
+
+            var result = _parkMeterTransaction.CheckResult();
+            ResultMessageLabel.Content = result.Message;
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)

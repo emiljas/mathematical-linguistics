@@ -32,10 +32,7 @@
         <Label Grid.Row="1" Grid.Column="0">
             1
         </Label>
-        <Label Grid.Row="1" Grid.Column="1">
-            2
-        </Label>
-        
+        <Label Grid.Row="1" Grid.Column="1" Name="ResultMessageLabel" />     
         <Grid Name="CoinsGrid" Grid.Row="2" Grid.Column="0" Margin="20,10,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

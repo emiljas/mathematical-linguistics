@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MathematicalLinguistics.ParkMeter.ChangeMaker
+namespace MathematicalLinguistics.ParkMeter.Change
 {
     public class CoinGroup
     {

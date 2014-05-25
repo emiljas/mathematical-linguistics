@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathematicalLinguistics.ParkMeter.Change;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,18 @@ namespace MathematicalLinguistics.ParkMeter
 {
     public class ParkMeterTransaction
     {
+        public const string WaitingForMoreCoinsMessageFormat
+            = "Waiting for {0}.";
+        public const string AcceptingStateMessage
+            = "Inserted coins sum equals price.";
+        public const string GiveChangeMessageFormat
+            = "Inserted coins sum is about {0} too high.";
+
         private string _coinsAsString = "";
         private Coin _currentCoin;
+        private List<Coin> _validInsertedCoins = new List<Coin>();
         private ParkMeterState _state;
+        Price _price = Price.FromZlotys(7);
         private int _coinsState = 0;
         public readonly static Coin[] ValidCoins = new []
         {
@@ -20,6 +30,8 @@ namespace MathematicalLinguistics.ParkMeter
         private const int AcceptingStateCoinsValue = 700;
 
         private static readonly Dictionary<int, Dictionary<int, int>> StateTable;
+        private ChangeMaker _changeMaker;
+        private List<Coin> _wrongCoins = new List<Coin>();
 
         static ParkMeterTransaction()
         {
@@ -62,21 +74,41 @@ namespace MathematicalLinguistics.ParkMeter
             dictionary.Add(insertedCoin, nextState);
         }
 
+        public ParkMeterTransaction(ChangeMaker changeMaker)
+        {
+            _changeMaker = changeMaker;
+        }
+
         public void InsertCoin(Coin coin)
         {
             _currentCoin = coin;
 
-            AppendCoinToString();
-            ValidateCoin();
-
-            if (IsCompleted())
+            if (IsValidCoin())
             {
-                AfterAcceptingState();
-                return;
-            }
+                _validInsertedCoins.Add(_currentCoin);
+                AppendCoinToString();
 
-            _coinsState = StateTable[_coinsState][coin.Grosze];
-            UpdateState();
+                if (IsCompleted())
+                {
+                    AfterAcceptingState();
+                    return;
+                }
+
+                _coinsState = StateTable[_coinsState][coin.Grosze];
+                UpdateState();
+            }
+            else
+            {
+                _wrongCoins.Add(_currentCoin);
+            }
+        }
+
+        private bool IsValidCoin()
+        {
+            if (ValidCoins.Contains(_currentCoin))
+                return true;
+
+            return false;
         }
 
         private void AppendCoinToString()
@@ -108,12 +140,6 @@ namespace MathematicalLinguistics.ParkMeter
                 || _state == ParkMeterState.AcceptingState;
         }
 
-        private void ValidateCoin()
-        {
-            if (!ValidCoins.Contains(_currentCoin))
-                throw new NotSupportedCoinException();
-        }
-
         public ParkMeterState CheckState()
         {
             return _state;
@@ -121,7 +147,41 @@ namespace MathematicalLinguistics.ParkMeter
 
         public ParkMeterTransactionResult CheckResult()
         {
-            throw new NotImplementedException();
+            var result = new ParkMeterTransactionResult();
+            var actual = Price.FromCoins(_validInsertedCoins);
+
+            switch (_state)
+            {
+                case ParkMeterState.WaitingForMoreCoins:
+                    result.CoinsChange = _wrongCoins;
+                    result.Message = string.Format(WaitingForMoreCoinsMessageFormat
+                                               , (_price - actual).ToString());
+                    break;
+                case ParkMeterState.AcceptingState:
+                    result.CoinsChange = _wrongCoins;
+                    result.Message = AcceptingStateMessage;
+                    break;
+                case ParkMeterState.GiveChangeState:
+                    try
+                    {
+                        var change = _changeMaker.Make(_price, actual);
+                        change.AddRange(_wrongCoins);
+
+                        result.CoinsChange = change;
+                        result.Message = string.Format(GiveChangeMessageFormat
+                                                    , (actual - _price).ToString());
+                    }
+                    catch(MissingCoinsInCoinStorageException ex)
+                    {
+                        result.CoinsChange = _validInsertedCoins.Union(_wrongCoins).ToList();
+                        result.Message = "Missing coins in coin storage. Call 333-444-555 for park meter operator";
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            return result;
         }
 
         public string GetCoinsAsString()

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MathematicalLinguistics.ParkMeter.ChangeMaker
+namespace MathematicalLinguistics.ParkMeter.Change
 {
     public class ChangeMaker
     {
