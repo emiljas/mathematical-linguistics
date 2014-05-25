@@ -30,25 +30,20 @@ namespace MathematicalLinguistics.ParkMeter.ChangeMaker
                 Count = count
             };
 
-            if (_coinsGroups.Count == 0)
-                _coinsGroups.Add(coinGroup);
-            else
+            
+            var inserted = false;
+            for (int i = 0; i < _coinsGroups.Count; ++i)
             {
-                for (int i = 0; i < _coinsGroups.Count; ++i)
+                if (_coinsGroups[i].Coin.Grosze < coin.Grosze)
                 {
-                    if (_coinsGroups[i].Coin.Grosze < coin.Grosze)
-                    {
-                        _coinsGroups.Insert(i, coinGroup);
-                        break;
-                    }
-
-                    if (i == _coinsGroups.Count - 1)
-                    {
-                        _coinsGroups.Add(coinGroup);
-                        break;
-                    }
+                    _coinsGroups.Insert(i, coinGroup);
+                    inserted = true;
+                    break;
                 }
             }
+
+            if (!inserted)
+                _coinsGroups.Add(coinGroup);
 
             return this;
         }

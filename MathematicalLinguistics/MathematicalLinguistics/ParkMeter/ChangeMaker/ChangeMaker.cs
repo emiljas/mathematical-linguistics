@@ -10,6 +10,11 @@ namespace MathematicalLinguistics.ParkMeter.ChangeMaker
     {
         private CoinStorage _storage;
 
+        private int _change;
+        private List<Coin> _coins;
+        private CoinGroup _coinGroup;
+        private int _coinGroupIndex;
+
         public ChangeMaker(CoinStorage storage)
         {
             _storage = storage;
@@ -17,32 +22,34 @@ namespace MathematicalLinguistics.ParkMeter.ChangeMaker
 
         public List<Coin> Make(Price price, Price actual)
         {
-            var change = (actual - price).Grosze;
-            var coins = new List<Coin>();
+            _change = (actual - price).Grosze;
+            _coins = new List<Coin>();
 
-            var i = 0;
-            var currentCoinsGroup = _storage.CoinsGroups[i];
+            _coinGroupIndex = 0;
+            _coinGroup = _storage.CoinsGroups[_coinGroupIndex];
 
-            while (change > 0)
+            while (_change > 0)
+                TryGiveMostValuableCoin();
+
+            return _coins;
+        }
+
+        private void TryGiveMostValuableCoin()
+        {
+            if (_coinGroup.Count == 0 || _change - _coinGroup.Coin.Grosze < 0)
+                NextCoinGroup();
+            else
             {
-                if (currentCoinsGroup.Count == 0)
-                {
-                    currentCoinsGroup = _storage.CoinsGroups[++i];
-                    continue;
-                }
+                _coins.Add(Coin.FromGrosze(_coinGroup.Coin.Grosze));
+                _change -= _coinGroup.Coin.Grosze;
 
-                if (change - currentCoinsGroup.Coin.Grosze >= 0)
-                {
-                    coins.Add(Coin.FromGrosze(currentCoinsGroup.Coin.Grosze));
-                    change -= currentCoinsGroup.Coin.Grosze;
-
-                    --currentCoinsGroup.Count;
-                }
-                else
-                    currentCoinsGroup = _storage.CoinsGroups[++i];
+                --_coinGroup.Count;
             }
+        }
 
-            return coins;
+        private void NextCoinGroup()
+        {
+            _coinGroup = _storage.CoinsGroups[++_coinGroupIndex];
         }
     }
 }
