@@ -22,7 +22,7 @@ namespace MathematicalLinguistics.Tests.ParkMeter
         }
 
         [Fact]
-        public void Change()
+        public void MakeChange()
         {
             _changeMaker = MakeChangeMaker(MakeCoinsStorage1());
             var price = Price.FromZlotys(100);
@@ -48,7 +48,7 @@ namespace MathematicalLinguistics.Tests.ParkMeter
         }
 
         [Fact]
-        public void ChangeWhenSomeCoinAreMissingInCoinsStorage()
+        public void MakeChange_WhenSomeCoinAreMissingInCoinsStorage()
         {
             _changeMaker = MakeChangeMaker(MakeCoinsStorage2());
             var price = Price.FromZlotys(100);
@@ -73,6 +73,38 @@ namespace MathematicalLinguistics.Tests.ParkMeter
                    .Insert(Coin.FromZlotys(2), 100)
                    .Insert(Coin.FromZlotys(5), 1);
             return storage;
+        }
+
+        [Fact]
+        public void MakeChange_WhenMissingCoinInCoinStorage_ThrowsMissingCoinsInCoinStorageException()
+        {
+            _changeMaker = MakeChangeMaker(MakeCoinsStorage3());
+            var price = Price.FromZlotys(4);
+            var actual = Price.FromZlotys(8);
+            
+            Assert.ThrowsDelegate make = () => _changeMaker.Make(price, actual);
+
+            Assert.Throws<MissingCoinsInCoinStorageException>(make);
+        }
+
+        private CoinStorage MakeCoinsStorage3()
+        {
+            var storage = new CoinStorage();
+            storage.Insert(Coin.FromZlotys(1), 1)
+                   .Insert(Coin.FromZlotys(2), 1);
+            return storage;
+        }
+
+        [Fact]
+        public void MakeChange_WhenCoinStorageIsEmpty_ThrowsMissingCoinsInCoinStorageException()
+        {
+            _changeMaker = new ChangeMaker(new CoinStorage());
+            var price = Price.FromZlotys(4);
+            var actual = Price.FromZlotys(8);
+
+            Assert.ThrowsDelegate make = () => _changeMaker.Make(price, actual);
+
+            Assert.Throws<MissingCoinsInCoinStorageException>(make);
         }
 
         private ChangeMaker MakeChangeMaker(CoinStorage storage)

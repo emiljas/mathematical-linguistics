@@ -26,6 +26,10 @@ namespace MathematicalLinguistics.ParkMeter.ChangeMaker
             _coins = new List<Coin>();
 
             _coinGroupIndex = 0;
+
+            if (_storage.CoinsGroups.Count == 0)
+                throw new MissingCoinsInCoinStorageException();
+
             _coinGroup = _storage.CoinsGroups[_coinGroupIndex];
 
             while (_change > 0)
@@ -36,6 +40,9 @@ namespace MathematicalLinguistics.ParkMeter.ChangeMaker
 
         private void TryGiveMostValuableCoin()
         {
+            if (_coinGroupIndex == _storage.CoinsGroups.Count - 1 && _coinGroup.Count == 0)
+                throw new MissingCoinsInCoinStorageException();
+
             if (_coinGroup.Count == 0 || _change - _coinGroup.Coin.Grosze < 0)
                 NextCoinGroup();
             else

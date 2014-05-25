@@ -64,6 +64,7 @@
     <Compile Include="ParkMeter\ChangeMaker\ChangeMaker.cs" />
     <Compile Include="ParkMeter\ChangeMaker\CoinGroup.cs" />
     <Compile Include="ParkMeter\ChangeMaker\CoinStorage.cs" />
+    <Compile Include="ParkMeter\ChangeMaker\MissingCoinsInCoinStorageException.cs" />
     <Compile Include="ParkMeter\CoinRadioButton.cs" />
     <Compile Include="ParkMeter\Coin.cs" />
     <Compile Include="MainWindow.xaml.cs">
