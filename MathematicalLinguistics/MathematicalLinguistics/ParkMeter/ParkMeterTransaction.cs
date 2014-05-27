@@ -174,7 +174,7 @@ namespace MathematicalLinguistics.ParkMeter
                     }
                     catch(MissingCoinsInCoinStorageException ex)
                     {
-                        result.CoinsChange = _validInsertedCoins.Union(_wrongCoins).ToList();
+                        result.CoinsChange = _validInsertedCoins.Concat(_wrongCoins).ToList();
                         result.Message = "Missing coins in coin storage. Call 333-444-555 for park meter operator";
                     }
                     break;
@@ -192,6 +192,16 @@ namespace MathematicalLinguistics.ParkMeter
 
         public void Confirm()
         {
+            var actual = Price.FromCoins(_validInsertedCoins);
+            try
+            {
+                _changeMaker.Make(_price, actual);
+            }
+            catch(MissingCoinsInCoinStorageException ex)
+            {
+                _changeMaker.RemoveFromCoinStorage(_validInsertedCoins);
+            }
+
             _changeMaker.Commit();
         }
     }

@@ -39,7 +39,7 @@ namespace MathematicalLinguistics.ParkMeter.Change
 
             if (_notCommitedStorage.CoinsGroups.Count == 0)
                 throw new MissingCoinsInCoinStorageException();
-
+            
             _coinGroup = _notCommitedStorage.CoinsGroups[_coinGroupIndex];
 
             while (_change > 0)
@@ -52,7 +52,7 @@ namespace MathematicalLinguistics.ParkMeter.Change
         {
             if (_coinGroupIndex == _notCommitedStorage.CoinsGroups.Count - 1 && _coinGroup.Count == 0)
                 throw new MissingCoinsInCoinStorageException();
-
+            
             if (_coinGroup.Count == 0 || _change - _coinGroup.Coin.Grosze < 0)
                 NextCoinGroup();
             else
@@ -72,6 +72,12 @@ namespace MathematicalLinguistics.ParkMeter.Change
         public void Commit()
         {
             _storage = _notCommitedStorage;
+        }
+
+        public void RemoveFromCoinStorage(List<Coin> coins)
+        {
+            _notCommitedStorage = _storage;
+            _notCommitedStorage.Remove(coins);
         }
     }
 }

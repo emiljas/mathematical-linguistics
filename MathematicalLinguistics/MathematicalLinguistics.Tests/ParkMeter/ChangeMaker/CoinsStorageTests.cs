@@ -21,6 +21,15 @@ namespace MathematicalLinguistics.Tests
         }
 
         [Fact]
+        public void Remove()
+        {
+            _storage.Remove(new List<Coin>{ Coin.FromZlotys(5), Coin.FromZlotys(5) });
+            var group5zl = _storage.CoinsGroups.Single(c => c.Coin.Grosze == 500);
+
+            Assert.Equal(6, group5zl.Count);
+        }
+
+        [Fact]
         public void GroupsAreOrderByGrosze()
         {
             Assert.Equal(Coin.FromZlotys(5).Grosze, _storage.CoinsGroups[0].Coin.Grosze);

@@ -69,5 +69,11 @@ namespace MathematicalLinguistics.ParkMeter.Change
 
             return copy;
         }
+
+        public void Remove(List<Coin> coins)
+        {
+            foreach (var coin in coins)
+                --_coinsGroups.Single(c => c.Coin.Equals(coin)).Count;
+        }
     }
 }
