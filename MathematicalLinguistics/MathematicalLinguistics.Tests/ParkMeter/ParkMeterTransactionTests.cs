@@ -17,8 +17,8 @@ namespace MathematicalLinguistics.Tests
         {
             var coinStorage = new CoinStorage();
             coinStorage.Insert(Coin.FromZlotys(1), 10)
-                        .Insert(Coin.FromZlotys(2), 7)
-                        .Insert(Coin.FromZlotys(5), 9);
+                       .Insert(Coin.FromZlotys(2), 7)
+                       .Insert(Coin.FromZlotys(5), 2);
             var changeMaker = new ChangeMaker(coinStorage);
 
             _parkMeter = new ParkMeterTransaction(changeMaker);

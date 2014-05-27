@@ -56,5 +56,10 @@ namespace MathematicalLinguistics.ParkMeter
 
             return this.Grosze == c.Grosze;
         }
+
+        public Coin Clone()
+        {
+            return MemberwiseClone() as Coin;
+        }
     }
 }

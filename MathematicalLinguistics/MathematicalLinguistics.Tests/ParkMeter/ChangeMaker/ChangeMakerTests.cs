@@ -3,6 +3,7 @@ using MathematicalLinguistics.ParkMeter.Change;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -122,6 +123,36 @@ namespace MathematicalLinguistics.Tests.ParkMeter
             {
                 Assert.Equal(expected[i].Grosze, result[i].Grosze);
             }
+        }
+
+        [Fact]
+        public void StorageNotChangeWithoutCommit()
+        {
+            var storage = new CoinStorage();
+            storage.Insert(Coin.FromGrosze(1), 1);
+
+            var changeMaker = new ChangeMaker(storage);
+            changeMaker.Make(Price.FromGrosze(1), Price.FromGrosze(2));
+
+            Assert.Equal(1, storage.CoinsGroups.Count);
+            Assert.Equal(1, storage.CoinsGroups[0].Count);
+        }
+
+        [Fact]
+        public void StorageChangeAfterCommit()
+        {
+            var storage = new CoinStorage();
+            storage.Insert(Coin.FromGrosze(1), 1);
+
+            var changeMaker = new ChangeMaker(storage);
+            changeMaker.Make(Price.FromGrosze(1), Price.FromGrosze(2));
+
+            changeMaker.Commit();
+
+            var commitedStorage = changeMaker.CoinStorage;
+
+            Assert.Equal(1, commitedStorage.CoinsGroups.Count);
+            Assert.Equal(0, commitedStorage.CoinsGroups[0].Count);
         }
     }
 }

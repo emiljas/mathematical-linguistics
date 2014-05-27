@@ -86,6 +86,7 @@ namespace MathematicalLinguistics.ParkMeter
             if (IsValidCoin())
             {
                 _validInsertedCoins.Add(_currentCoin);
+                _changeMaker.CoinStorage.Insert(_currentCoin, 1);
                 AppendCoinToString();
 
                 if (IsCompleted())
@@ -187,6 +188,11 @@ namespace MathematicalLinguistics.ParkMeter
         public string GetCoinsAsString()
         {
             return _coinsAsString;
+        }
+
+        public void Confirm()
+        {
+            _changeMaker.Commit();
         }
     }
 }

@@ -19,7 +19,6 @@ namespace MathematicalLinguistics
 {
     public partial class MainWindow : Window
     {
-        private CoinStorage _coinStorage;
         private ChangeMaker _changeMaker;
         private ParkMeterTransaction _parkMeterTransaction;
         private Coin _selectedCoin = Coin.FromZlotys(1);
@@ -34,11 +33,11 @@ namespace MathematicalLinguistics
 
         private void LoadCoinStorage()
         {
-            _coinStorage = new CoinStorage();
-            _coinStorage.Insert(Coin.FromZlotys(1), 10)
+            var coinStorage = new CoinStorage();
+            coinStorage.Insert(Coin.FromZlotys(1), 0)
                         .Insert(Coin.FromZlotys(2), 7)
-                        .Insert(Coin.FromZlotys(5), 9);
-            _changeMaker = new ChangeMaker(_coinStorage);
+                        .Insert(Coin.FromZlotys(5), 2);
+            _changeMaker = new ChangeMaker(coinStorage);
         }
 
         private void BindNewParkMeterTransaction()
@@ -55,18 +54,19 @@ namespace MathematicalLinguistics
 
         private void Refresh()
         {
-            CoinStorageLabel.Content = _coinStorage.ToString();
+            CoinStorageLabel.Content = _changeMaker.CoinStorage.ToString();
 
-            StateTextBlock.Text = "State: " + _parkMeterTransaction.CheckState().ToString();
+            StateTextBlock.Text = _parkMeterTransaction.CheckState().ToString();
             InsertedCoinsTextBox.Text = _parkMeterTransaction.GetCoinsAsString();
-            InsertedCoinsTextBox.ScrollToEnd();
 
             var result = _parkMeterTransaction.CheckResult();
-            ResultMessageLabel.Content = result.Message;
+            ChangeTextBlock.Text = string.Join(", ", result.CoinsChange.Select(c => c.ToString()));
+            ResultMessageTextBlock.Text = result.Message;
         }
 
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+        private void ConfirmTransactionButton_Click(object sender, RoutedEventArgs e)
         {
+            _parkMeterTransaction.Confirm();
             BindNewParkMeterTransaction();
         }
 

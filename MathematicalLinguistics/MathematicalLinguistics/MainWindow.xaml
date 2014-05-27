@@ -26,13 +26,23 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ScrollViewer.VerticalScrollBarVisibility="Visible"
-                 IsReadOnly="True" TextWrapping="Wrap" TextAlignment="Center" FontSize="18" Name="InsertedCoinsTextBox"></TextBox>
+
+        <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,10,10,10" FontSize="16">
+            <GroupBox.Header>
+                Screen
+            </GroupBox.Header>
+            <TextBlock ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" FontSize="18" Name="InsertedCoinsTextBox" />
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Grid.Column="0" Margin="10,10,10,10" FontSize="16">
+            <GroupBox.Header>
+                Change
+            </GroupBox.Header>
+            <TextBlock Name="ChangeTextBlock" VerticalAlignment="Center" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
+        </GroupBox>
         
-        <Label Grid.Row="1" Grid.Column="0">
-            1
-        </Label>
-        <Label Grid.Row="1" Grid.Column="1" Name="ResultMessageLabel" />     
+        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="16" Name="ResultMessageTextBlock" VerticalAlignment="Center" TextWrapping="WrapWithOverflow" TextAlignment="Center" />     
         <Grid Name="CoinsGrid" Grid.Row="2" Grid.Column="0" Margin="20,10,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -56,10 +66,30 @@
         </Grid>
         <Button Grid.Row="2" Grid.Column="1" Content="Insert coin" Margin="10,10,10,10" Click="InsertCoinButton_Click">
         </Button>
+
+
+
+
+
+
+
+        <GroupBox Grid.Row="3" Grid.Column="0" Margin="10,10,10,10" FontSize="16">
+            <GroupBox.Header>
+                State
+            </GroupBox.Header>
+            <TextBlock TextAlignment="Center" VerticalAlignment="Center" Name="StateTextBlock" />
+        </GroupBox>
         
-        <TextBlock Grid.Row="3" Grid.Column="0" Margin="10,10,10,10" TextAlignment="Center" VerticalAlignment="Center" Name="StateTextBlock">
-        </TextBlock>
-        <Button Grid.Row="3" Grid.Column="1" Content="Start" Margin="10,10,10,10" Click="StartButton_Click">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <Button Grid.Row="3" Grid.Column="1" Content="Confirm transaction" Margin="10,10,10,10" Click="ConfirmTransactionButton_Click">
         </Button>
 
         <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,10,10,10" FontSize="16">

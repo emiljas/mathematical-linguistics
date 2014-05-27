@@ -15,5 +15,15 @@ namespace MathematicalLinguistics.ParkMeter.Change
         {
             return Coin.ToString() + " x " + Count;
         }
+
+        public CoinGroup Clone()
+        {
+            var coinGroup = new CoinGroup();
+            
+            coinGroup.Coin = Coin.Clone();
+            coinGroup.Count = Count;
+
+            return coinGroup;
+        }
     }
 }
