@@ -79,6 +79,10 @@ namespace MathematicalLinguistics.ParkMeter
             _changeMaker = changeMaker;
         }
 
+        /// <summary>
+        /// Process inserted coin in transaction context.
+        /// </summary>
+        /// <param name="coin">Inserted coin.</param>
         public void InsertCoin(Coin coin)
         {
             _currentCoin = coin;
@@ -141,11 +145,19 @@ namespace MathematicalLinguistics.ParkMeter
                 || _state == ParkMeterState.AcceptingState;
         }
 
+        /// <summary>
+        /// Check current transaction state.
+        /// </summary>
+        /// <returns>Transaction  state.</returns>
         public ParkMeterState CheckState()
         {
             return _state;
         }
 
+        /// <summary>
+        /// Check result of transaction.
+        /// </summary>
+        /// <returns>Message for user and change.</returns>
         public ParkMeterTransactionResult CheckResult()
         {
             var result = new ParkMeterTransactionResult();
@@ -190,6 +202,9 @@ namespace MathematicalLinguistics.ParkMeter
             return _coinsAsString;
         }
 
+        /// <summary>
+        /// Confirm transaction. Coin storage is affected.
+        /// </summary>
         public void Confirm()
         {
             var actual = Price.FromCoins(_validInsertedCoins);

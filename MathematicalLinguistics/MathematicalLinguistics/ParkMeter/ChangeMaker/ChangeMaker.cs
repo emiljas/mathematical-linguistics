@@ -28,6 +28,12 @@ namespace MathematicalLinguistics.ParkMeter.Change
             _storage = storage;
         }
 
+        /// <summary>
+        /// Calculate change.
+        /// </summary>
+        /// <param name="price">Cost of item</param>
+        /// <param name="actual">Price from give change</param>
+        /// <returns>Change in coins</returns>
         public List<Coin> Make(Price price, Price actual)
         {
             _notCommitedStorage = _storage.Clone();
@@ -69,11 +75,18 @@ namespace MathematicalLinguistics.ParkMeter.Change
             _coinGroup = _notCommitedStorage.CoinsGroups[++_coinGroupIndex];
         }
 
+        /// <summary>
+        /// Confirm transaction. Coin storage is affected after this operation.
+        /// </summary>
         public void Commit()
         {
             _storage = _notCommitedStorage;
         }
 
+        /// <summary>
+        /// Remove coins from coin storage.
+        /// </summary>
+        /// <param name="coins"></param>
         public void RemoveFromCoinStorage(List<Coin> coins)
         {
             _notCommitedStorage = _storage;

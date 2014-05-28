@@ -24,6 +24,12 @@ namespace MathematicalLinguistics.ParkMeter.Change
             _coinsGroups = new List<CoinGroup>();
         }
 
+        /// <summary>
+        /// Fill coin storage by specified number of coins.
+        /// </summary>
+        /// <param name="coin">Inserted coins type.</param>
+        /// <param name="count">Number of coins to insert.</param>
+        /// <returns>Coin storage to which coins were inserted.</returns>
         public CoinStorage Insert(Coin coin, int count)
         {
             var coinGroup = new CoinGroup
@@ -55,11 +61,19 @@ namespace MathematicalLinguistics.ParkMeter.Change
             return this;
         }
 
+        /// <summary>
+        /// Convert coin storage to string.
+        /// </summary>
+        /// <returns>String format of storage.</returns>
         public override string ToString()
         {
             return string.Join("\t", _coinsGroups.Select(c => c.ToString()));
         }
 
+        /// <summary>
+        /// Deep copy of coin storage.
+        /// </summary>
+        /// <returns>Coin storage copy.</returns>
         public CoinStorage Clone()
         {
             var copy = new CoinStorage();
@@ -70,6 +84,10 @@ namespace MathematicalLinguistics.ParkMeter.Change
             return copy;
         }
 
+        /// <summary>
+        /// Remove coin from coin storage.
+        /// </summary>
+        /// <param name="coins">Coins to remove.</param>
         public void Remove(List<Coin> coins)
         {
             foreach (var coin in coins)
