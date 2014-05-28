@@ -112,7 +112,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MathematicalLinguistics\MathematicalLinguistics.csproj">
+    <ProjectReference Include="..\MathematicalLinguistics\MathematicalLinguistics.ParkMeter.csproj">
       <Project>{327c0827-13a6-4a74-9aa8-01acacb48713}</Project>
       <Name>MathematicalLinguistics</Name>
     </ProjectReference>

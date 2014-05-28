@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics", "MathematicalLinguistics\MathematicalLinguistics.csproj", "{327C0827-13A6-4A74-9AA8-01ACACB48713}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics", "MathematicalLinguistics\MathematicalLinguistics.ParkMeter.csproj", "{327C0827-13A6-4A74-9AA8-01ACACB48713}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics.Tests", "MathematicalLinguistics.Tests\MathematicalLinguistics.Tests.csproj", "{C4C96E4A-6477-41CB-9AD0-8BDF6298DAC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics.Tests", "MathematicalLinguistics.Tests\MathematicalLinguistics.ParkMeter.Tests.csproj", "{C4C96E4A-6477-41CB-9AD0-8BDF6298DAC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
