@@ -11,13 +11,41 @@ namespace MathematicalLinguistics.RegularExpression
         public char[] Characters { get; set; }
         public bool IsAcceptable { get; set; }
 
+        private bool _valid;
+
+        int _repeatNumber = 0;
+        public bool OneOrMore { get; set; }
+
+        public bool CanBeRepeat()
+        {
+            return OneOrMore;
+        }
+
         public bool IsValid(char character)
         {
-            return Characters.Contains(character);
+            _valid = Characters.Contains(character);
+            
+            if (OneOrMore && _repeatNumber >= 1 && !_valid)
+            {
+                bool valid = NextState.IsValid(character);
+                NextState = NextState.NextState;
+                return valid;
+            }
+
+            return _valid;
         }
 
         public State GetNextState(char character)
         {
+            if (OneOrMore && _repeatNumber < 0)
+                return this;
+
+            if (OneOrMore && _repeatNumber >= 0 && _valid)
+            {
+                ++_repeatNumber;
+                return this;
+            }
+
             return NextState;
         }
     }
@@ -43,16 +71,22 @@ namespace MathematicalLinguistics.RegularExpression
 
             for (_regexIndex = 0; _regexIndex < regex.Length; )
             {
-                state = new State();
-
+                if (regex[_regexIndex] == '+')
+                {
+                    _currentState.OneOrMore = true;
+                    ++_regexIndex;
+                    continue;
+                }
                 if (IsCharacterGroup())
                 {
+                    state = new State();
                     var group = ParseCharacterGroup(_regexIndex);
                     state.Characters = group.Characters;
                     _regexIndex += group.Move;
                 }
                 else
                 {
+                    state = new State();
                     state.Characters = new char[]{ regex[_regexIndex] };
                     ++_regexIndex;
                 }
@@ -93,7 +127,10 @@ namespace MathematicalLinguistics.RegularExpression
                 else if (currentState.IsAcceptable)
                     isAcceptable = true;
 
-                currentState = currentState.GetNextState(currentCharacter);
+                /*if (currentState.CanBeRepeat() && currentState.IsValid(currentCharacter))
+                    continue;
+                else*/
+                    currentState = currentState.GetNextState(currentCharacter);
             }
 
             return isAcceptable;
@@ -108,14 +145,18 @@ namespace MathematicalLinguistics.RegularExpression
         {
             int groupLength = _regex.IndexOf(']', startIndex) - startIndex - 1;
             var group = _regex.Substring(startIndex + 1, groupLength);
-
-            var ranges = group.Replace("-", "").ToCharArray();
-
             var characters = new List<char>();
-            for (int i = 0; i < ranges.Length; i += 2)
+
+            int dashIndex;
+            while ((dashIndex = group.IndexOf('-')) != -1)
             {
-                char rangeBegin = ranges[i];
-                char rangeEnd = ranges[i + 1];
+                int rangeBeginIndex = dashIndex - 1;
+                int rangeEndIndex = dashIndex + 1;
+
+                char rangeBegin = group[rangeBeginIndex];
+                char rangeEnd = group[rangeEndIndex];
+
+                group = group.Remove(rangeBeginIndex, 3);
 
                 char character = rangeBegin;
                 while (character != rangeEnd)
@@ -124,6 +165,11 @@ namespace MathematicalLinguistics.RegularExpression
                     ++character;
                 }
                 characters.Add(character);
+            }
+
+            for (int i = 0; i < group.Length; ++i)
+            {
+                characters.Add(group[i]);
             }
 
             return new CharacterGroup
