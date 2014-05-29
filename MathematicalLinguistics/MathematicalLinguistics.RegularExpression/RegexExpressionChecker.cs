@@ -16,20 +16,16 @@ namespace MathematicalLinguistics.RegularExpression
         int _repeatNumber = 0;
         public bool OneOrMore { get; set; }
 
-        public bool CanBeRepeat()
-        {
-            return OneOrMore;
-        }
-
         public bool IsValid(char character)
         {
             _valid = Characters.Contains(character);
             
             if (OneOrMore && _repeatNumber >= 1 && !_valid)
             {
-                bool valid = NextState.IsValid(character);
+                bool validInNextState = NextState.IsValid(character);
                 NextState = NextState.NextState;
-                return valid;
+
+                return validInNextState;
             }
 
             return _valid;
@@ -37,14 +33,10 @@ namespace MathematicalLinguistics.RegularExpression
 
         public State GetNextState(char character)
         {
-            if (OneOrMore && _repeatNumber < 0)
-                return this;
+            ++_repeatNumber;
 
-            if (OneOrMore && _repeatNumber >= 0 && _valid)
-            {
-                ++_repeatNumber;
+            if (OneOrMore && _valid)
                 return this;
-            }
 
             return NextState;
         }
