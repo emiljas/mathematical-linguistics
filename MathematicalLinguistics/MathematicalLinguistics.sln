@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics", "MathematicalLinguistics\MathematicalLinguistics.ParkMeter.csproj", "{327C0827-13A6-4A74-9AA8-01ACACB48713}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics.ParkMeter", "MathematicalLinguistics\MathematicalLinguistics.ParkMeter.csproj", "{327C0827-13A6-4A74-9AA8-01ACACB48713}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics.Tests", "MathematicalLinguistics.Tests\MathematicalLinguistics.ParkMeter.Tests.csproj", "{C4C96E4A-6477-41CB-9AD0-8BDF6298DAC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics.ParkMeter.Tests", "MathematicalLinguistics.Tests\MathematicalLinguistics.ParkMeter.Tests.csproj", "{C4C96E4A-6477-41CB-9AD0-8BDF6298DAC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics.RegularExpression", "MathematicalLinguistics.RegularExpression\MathematicalLinguistics.RegularExpression.csproj", "{C5A1E53F-C35B-472E-A5CE-E9CB9696F7B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicalLinguistics.RegularExpression.Tests", "MathematicalLinguistics.RegularExpression.Tests\MathematicalLinguistics.RegularExpression.Tests.csproj", "{11EF2863-9289-45A7-AA1E-1CF61F6FA922}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,14 @@ Global
 		{C4C96E4A-6477-41CB-9AD0-8BDF6298DAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4C96E4A-6477-41CB-9AD0-8BDF6298DAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4C96E4A-6477-41CB-9AD0-8BDF6298DAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A1E53F-C35B-472E-A5CE-E9CB9696F7B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A1E53F-C35B-472E-A5CE-E9CB9696F7B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A1E53F-C35B-472E-A5CE-E9CB9696F7B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A1E53F-C35B-472E-A5CE-E9CB9696F7B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11EF2863-9289-45A7-AA1E-1CF61F6FA922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11EF2863-9289-45A7-AA1E-1CF61F6FA922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11EF2863-9289-45A7-AA1E-1CF61F6FA922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11EF2863-9289-45A7-AA1E-1CF61F6FA922}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
