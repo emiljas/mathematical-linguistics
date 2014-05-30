@@ -58,12 +58,12 @@ namespace MathematicalLinguistics.RegularExpression
 
         public void Compile(string regex)
         {
-            _regex = regex;
+            _regex = ExpandConstantRepetition(regex);
             State state = null;
 
-            for (_regexIndex = 0; _regexIndex < regex.Length; )
+            for (_regexIndex = 0; _regexIndex < _regex.Length; )
             {
-                if (regex[_regexIndex] == '+')
+                if (_regex[_regexIndex] == '+')
                 {
                     _currentState.OneOrMore = true;
                     ++_regexIndex;
@@ -79,7 +79,7 @@ namespace MathematicalLinguistics.RegularExpression
                 else
                 {
                     state = new State();
-                    state.Characters = new char[]{ regex[_regexIndex] };
+                    state.Characters = new char[] { _regex[_regexIndex] };
                     ++_regexIndex;
                 }
 
@@ -119,10 +119,7 @@ namespace MathematicalLinguistics.RegularExpression
                 else if (currentState.IsAcceptable)
                     isAcceptable = true;
 
-                /*if (currentState.CanBeRepeat() && currentState.IsValid(currentCharacter))
-                    continue;
-                else*/
-                    currentState = currentState.GetNextState(currentCharacter);
+                currentState = currentState.GetNextState(currentCharacter);
             }
 
             return isAcceptable;
@@ -144,6 +141,14 @@ namespace MathematicalLinguistics.RegularExpression
             {
                 int rangeBeginIndex = dashIndex - 1;
                 int rangeEndIndex = dashIndex + 1;
+
+                if (rangeEndIndex >= group.Length)
+                {
+                    characters.Add('-');
+                    group = group.Remove(dashIndex, 1);
+
+                    continue;
+                }
 
                 char rangeBegin = group[rangeBeginIndex];
                 char rangeEnd = group[rangeEndIndex];
@@ -171,5 +176,85 @@ namespace MathematicalLinguistics.RegularExpression
             };
         }
 
+
+        public string ExpandConstantRepetition(string regex)
+        {
+            regex = ExpandRoundSection(regex);
+            regex = ExpandSquareSections(regex);
+            
+            return regex;
+        }
+
+        private string ExpandRoundSection(string regex)
+        {
+            int bracketOpenningIndex;
+
+            while ((bracketOpenningIndex = regex.IndexOf('(')) != -1)
+            {
+                int bracketClosingIndex;
+                int open = 1, close = 0;
+
+                for (bracketClosingIndex = bracketOpenningIndex + 1; open != close; ++bracketClosingIndex)
+                {
+                    var c = regex[bracketClosingIndex];
+
+                    if (c == '(') ++open;
+                    if (c == ')') ++close;
+                }
+
+                var bracketContent = regex.Substring(bracketOpenningIndex + 1, bracketClosingIndex - bracketOpenningIndex - 2);
+
+                var repetitionNumberAsString = "";
+                for (int i = bracketClosingIndex + 1; regex[i] != '}'; ++i)
+                {
+                    if (regex[i] != '{' && regex[i] != '}')
+                        repetitionNumberAsString += regex[i];
+                }
+
+                int repetitionNumber = int.Parse(repetitionNumberAsString);
+
+                var expanded = "";
+                for (int i = 0; i < repetitionNumber; ++i)
+                    expanded += bracketContent;
+
+                regex = regex.Remove(bracketOpenningIndex, bracketClosingIndex - bracketOpenningIndex + 3);
+                regex = regex.Insert(bracketOpenningIndex, expanded);
+            }
+
+            return regex;
+        }
+
+        private string ExpandSquareSections(string regex)
+        {
+            int curlyBracketOpenningIndex;
+            while ((curlyBracketOpenningIndex = regex.IndexOf('{')) != -1)
+            {
+                int curlyBracketClosingIndex = regex.IndexOf('}', curlyBracketOpenningIndex);
+
+                int bracketOpenningIndex = 0;
+                int bracketClosingIndex = curlyBracketOpenningIndex - 1;
+                for (int i = bracketClosingIndex; ; --i)
+                {
+                    if (regex[i] == '[')
+                    {
+                        bracketOpenningIndex = i;
+                        break;
+                    }
+                }
+
+                int number = int.Parse(regex.Substring(curlyBracketOpenningIndex + 1, curlyBracketClosingIndex - curlyBracketOpenningIndex - 1));
+
+                var bracket = regex.Substring(bracketOpenningIndex, bracketClosingIndex - bracketOpenningIndex + 1);
+
+                string expanded = "";
+                for (int i = 0; i < number; ++i)
+                    expanded += bracket;
+
+                regex = regex.Remove(bracketOpenningIndex, curlyBracketClosingIndex - bracketOpenningIndex + 1);
+                regex = regex.Insert(bracketOpenningIndex, expanded);
+            }
+
+            return regex;
+        }
     }
 }

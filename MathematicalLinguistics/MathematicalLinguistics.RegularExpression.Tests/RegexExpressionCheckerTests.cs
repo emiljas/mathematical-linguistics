@@ -12,13 +12,18 @@ namespace MathematicalLinguistics.RegularExpression.Tests
     {
         private const string FourCharactersRegex = "abcd";
         private const string TwoNumbersAddingRegex = "[0-9]+[+][0-9]+";
+        private const string MacAddressRegex = "([0-9A-F]{2}[:-]){5}[0-9A-F]{2}";
 
         [Theory]
-        //FourCharactersRegex
+        //FourCharacters
         [InlineData(FourCharactersRegex, "abcd")]
-        //TwoNumbersAddingRegex
+        //TwoNumbersAdding
         [InlineData(TwoNumbersAddingRegex, "1+2")]
         [InlineData(TwoNumbersAddingRegex, "175678+7467846")]
+        [InlineData(TwoNumbersAddingRegex, "3+7467846")]
+        [InlineData(TwoNumbersAddingRegex, "175678+6")]
+        //MacAddress
+        [InlineData(MacAddressRegex, "3D-F2-C9-A6-B3-4F")]
         public void TestCheck_ValidInput(string regex, string input)
         {
             base.Compile(regex);
@@ -29,11 +34,11 @@ namespace MathematicalLinguistics.RegularExpression.Tests
         }
 
         [Theory]
-        //FourCharactersRegex
+        //FourCharacters
         [InlineData(FourCharactersRegex, "abcde")]
         [InlineData(FourCharactersRegex, "abc")]
         [InlineData(FourCharactersRegex, "")]
-        //TwoNumbersAddingRegex
+        //TwoNumbersAdding
         [InlineData(TwoNumbersAddingRegex, "+2")]
         [InlineData(TwoNumbersAddingRegex, "1+")]
         [InlineData(TwoNumbersAddingRegex, "+")]
@@ -50,6 +55,7 @@ namespace MathematicalLinguistics.RegularExpression.Tests
         [InlineData("qwe[4-7]ty", 3, 5, new char[] { '4', '5', '6', '7' })]
         [InlineData("[a-cA-C]", 0, 8, new char[]{ 'a', 'b', 'c', 'A', 'B', 'C' })] 
         [InlineData("[xa-bcd]", 0, 8, new char[]{ 'a', 'b', 'x', 'c', 'd' })]
+        [InlineData("[:-]", 0, 4, new char[]{ '-', ':' })]
         public void TestParseCharacterGroup(string regex, int startIndex, int move, char[] characters)
         {
             base._regex = regex;
@@ -57,6 +63,15 @@ namespace MathematicalLinguistics.RegularExpression.Tests
 
             Assert.Equal(characters, group.Characters);
             Assert.Equal(move, group.Move);
+        }
+
+        [Theory]
+        [InlineData("([a]{2}[b]{3}){2}", "[a][a][b][b][b][a][a][b][b][b]")]
+        [InlineData(MacAddressRegex, "[0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F]")]
+        public void TestExpandConstantRepetition(string regex, string expandedRegex)
+        {
+            string result = base.ExpandConstantRepetition(regex);
+            Assert.Equal(expandedRegex, result);
         }
     }
 }
