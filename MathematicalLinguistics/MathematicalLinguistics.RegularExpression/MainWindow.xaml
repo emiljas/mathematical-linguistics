@@ -1,8 +1,32 @@
 ﻿<Window x:Class="MathematicalLinguistics.RegularExpression.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="RegexExpressionChecker" ResizeMode="NoResize" Height="345" Width="525">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         
+        <StackPanel Margin="5, 5, 5, 5">
+            <Label Content="Choose regular expression type:" />
+            <RadioButton Content="Adding integer numbers" Name="AddingIntegersNumbersRadioButton" Margin="5,0,5,0" IsChecked="True" />
+            <RadioButton Content="MAC address" Name="MACAddressRadioButton" Margin="5,0,5,0" />
+            
+            <ContentControl Height="50" />
+            
+            <Label Content="Enter text to check:" />
+            <TextBox Name="TextToCheckTextBox" Height="30" FontSize="18" />
+            <Button Content="Add" Click="AddButton_Click" Height="40" />
+
+            <ContentControl Height="50" />
+
+            <Button Content="Check" Height="40" Click="CheckButton_Click" />
+        </StackPanel>
+        
+        <ListBox Grid.Row="0" Grid.Column="1" FontSize="18" Name="TextsToCheckListBox" />
     </Grid>
 </Window>

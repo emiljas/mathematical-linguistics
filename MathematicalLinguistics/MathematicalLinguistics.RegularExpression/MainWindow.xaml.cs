@@ -15,14 +15,53 @@ using System.Windows.Shapes;
 
 namespace MathematicalLinguistics.RegularExpression
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private const string TwoNumbersAddingRegex = "[0-9]+[+][0-9]+";
+        private const string MacAddressRegex = "([0-9A-F]{2}[:-]){5}[0-9A-F]{2}";
+
+        private Brush _greenBrush = new SolidColorBrush(Colors.Green);
+        private Brush _redBrush = new SolidColorBrush(Colors.Red);
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            var textToCheck = TextToCheckTextBox.Text;
+            
+            var textBlock = new TextBlock();
+            textBlock.Text = textToCheck;
+
+            TextsToCheckListBox.Items.Add(textBlock);
+
+            TextToCheckTextBox.Text = "";
+        }
+
+        private void CheckButton_Click(object sender, RoutedEventArgs e)
+        {
+            var regularExpressionChecker = new RegexExpressionChecker();
+            
+            string regex = "";
+            if (AddingIntegersNumbersRadioButton.IsChecked.Value)
+                regex = TwoNumbersAddingRegex;
+            if (MACAddressRadioButton.IsChecked.Value)
+                regex = MacAddressRegex;
+
+            foreach (var item in TextsToCheckListBox.Items)
+            {
+                regularExpressionChecker.Compile(regex);
+
+                var textBlock = item as TextBlock;
+                bool valid = regularExpressionChecker.Check(textBlock.Text);
+
+                if (valid)
+                    textBlock.Foreground = _greenBrush;
+                else
+                    textBlock.Foreground = _redBrush;
+            }
         }
     }
 }

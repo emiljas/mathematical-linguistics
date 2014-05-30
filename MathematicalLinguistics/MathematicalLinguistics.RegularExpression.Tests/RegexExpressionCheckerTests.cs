@@ -24,6 +24,7 @@ namespace MathematicalLinguistics.RegularExpression.Tests
         [InlineData(TwoNumbersAddingRegex, "175678+6")]
         //MacAddress
         [InlineData(MacAddressRegex, "3D-F2-C9-A6-B3-4F")]
+        [InlineData(MacAddressRegex, "00:0A:E6:3E:FD:E1")]
         public void TestCheck_ValidInput(string regex, string input)
         {
             base.Compile(regex);
