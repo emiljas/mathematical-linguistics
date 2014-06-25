@@ -48,7 +48,7 @@ namespace MathematicalLinguistics.RegularExpression
         public int Move { get; set; }
     }
 
-    public class RegexExpressionChecker
+    public class RegexExpressionChecker : IRegexExpressionChecker
     {
         private State _firstState;
         private State _currentState;

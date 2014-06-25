@@ -45,10 +45,29 @@ namespace MathematicalLinguistics.RegularExpression
             var regularExpressionChecker = new RegexExpressionChecker();
             
             string regex = "";
-            if (AddingIntegersNumbersRadioButton.IsChecked.Value)
-                regex = TwoNumbersAddingRegex;
-            if (MACAddressRadioButton.IsChecked.Value)
-                regex = MacAddressRegex;
+
+
+            if(IPAndSubnetMaskRadioButton.IsChecked.Value)
+            {
+            }
+            else if(MACAddressRadioButton.IsChecked.Value)
+            {
+            }
+            else if(EmailAddressRadioButton.IsChecked.Value)
+            {
+            }
+            else if(AddingIntegersRadioButton.IsChecked.Value)
+            {
+            }
+            else if(SubtractingComplexNumbersRadioButton.IsChecked.Value)
+            {
+            }
+            else if(HtmlTextFormattingRadioButton.IsChecked.Value)
+            {
+            }
+            else if (HtmlTablesRadioButton.IsChecked.Value)
+            {
+            }
 
             foreach (var item in TextsToCheckListBox.Items)
             {

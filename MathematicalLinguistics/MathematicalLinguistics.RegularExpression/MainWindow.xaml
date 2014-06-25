@@ -13,8 +13,28 @@
         
         <StackPanel Margin="5, 5, 5, 5">
             <Label Content="Choose regular expression type:" />
-            <RadioButton Content="Adding integer numbers" Name="AddingIntegersNumbersRadioButton" Margin="5,0,5,0" IsChecked="True" />
-            <RadioButton Content="MAC address" Name="MACAddressRadioButton" Margin="5,0,5,0" />
+            
+            <RadioButton Content="IPv4 and subnet mask"
+                         Name="IPAndSubnetMaskRadioButton"
+                         Margin="5,0,5,0" IsChecked="True" />
+            <RadioButton Content="MAC address"
+                         Name="MACAddressRadioButton"
+                         Margin="5,0,5,0" />
+            <RadioButton Content="E-mail address"
+                         Name="EmailAddressRadioButton"
+                         Margin="5,0,5,0" />
+            <RadioButton Content="Adding integers"
+                         Name="AddingIntegersRadioButton"
+                         Margin="5,0,5,0" />
+            <RadioButton Content="Subtracting complex numbers"
+                         Name="SubtractingComplexNumbersRadioButton"
+                         Margin="5,0,5,0" />
+            <RadioButton Content="Html text formatting"
+                         Name="HtmlTextFormattingRadioButton"
+                         Margin="5,0,5,0" />
+            <RadioButton Content="Html tables"
+                         Name="HtmlTablesRadioButton"
+                         Margin="5,0,5,0" />
             
             <ContentControl Height="50" />
             
